@@ -1,0 +1,82 @@
+<!DOCTYPE html><html lang="en"><body>
+<script type="text/javascript" src="https://cdn.embed.ly/player-0.0.12.min.js"></script>
+
+<script>
+
+var linkArray = ["https://riipen.mediacore.tv/media/id:3407369/embed_player", 		
+			"https://riipen.mediacore.tv/media/id:3407337/embed_player", 
+			"https://riipen.mediacore.tv/media/id:3407336/embed_player", 
+			"https://riipen.mediacore.tv/media/id:3404654/embed_player"];				// creates an array of links called linkArray
+
+var index = 0;									// sets the new variable index to zero
+var length = linkArray.length;					// sets the length of the array to a variable called length
+
+var iframe = document.createElement('iframe');  // creates iframe called iframe
+iframe.src = linkArray[0];						// sets the source to be the first element in the linkarray
+iframe.width = 600;								// sets the width of the iframe
+iframe.height = 600;							// sets the height of the iframe
+document.body.appendChild(iframe);				// adds the iframe to the body
+
+var player = new playerjs.Player(iframe);		// creates player which is an object that depends on the iframe
+ player.on('ready', function(){					// waits for the page to load
+        player.play();							// plays the video
+      });
+
+
+function Skip(){								// creates the function for the skip button
+
+	if (index < length - 1){					// ensures that index doesn't go over the length of the array
+		index++; 								// moves the index over one
+	}
+	else{
+		index = 0;								// moves the index back to the beginning of the array 
+	}
+	
+	var z = linkArray[index];					// sets an intermediate variable z to the URL in the array at the point index
+	iframe.src = z;								// sets the source of the iframe to the URL z
+	player.on('ready', function(){				// waits for the object 'player' to load the URL
+		player.play();							// once its ready it plays the video
+	});
+
+}
+
+function Back(){								// creates a function for the back button
+	if (index == 0){							// ensures that index doesn't go under zero
+		index = length - 1; 					// moves the index to the end of the array
+	}
+	else{
+		index--;								// moves the index back one space in the array
+	}
+	
+	var videoiframe = document.getElementById('VideosArray');		// creates a variable videoframe and sets it to the iframe VideosArray
+	var z = linkArray[index];										// sets an intermediate variable z to the URL in the array at the point index
+	iframe.src = z;													// sets the source of the iframe to the URL z
+	player.on('ready', function(){									// waits for the object 'player' to load the URL
+		player.play();												// once its ready it plays the video											
+	});
+
+}
+
+function playnext(){												// creates a function to play the next video
+	player.on('ready', function(){									// waits for the object 'player' to load the URL
+		player.play();												// once its ready it plays the video
+	});
+}
+
+player.on('ended', function(){										// creates a listener that listens to the ending of a video
+	index++;														// increments index to move to next video
+	var videoiframe = document.getElementById('VideosArray');		// creates a variable videoframe and sets it to the iframe VideosArray
+	var z = linkArray[index];										// sets an intermediate variable z to the URL in the array at the point index
+	iframe.src = z;													// sets the source of the iframe to load the URL
+	playnext();														// calls the function playnext
+});
+
+
+</script>
+
+
+<button onclick="Back()" style= "backgrounColor:"#F0F0F0"; width:"90px"; heigh:"30px"; padding:"20px" autoplay>Back</button> 
+<button onclick="Skip()" style= "backgrounColor:"#F0F0F0"; width:"90px"; heigh:"30px"; padding:"20px" autoplay>Skip</button>
+
+</body></html>
+
